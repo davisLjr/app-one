@@ -1,14 +1,104 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {StyleSheet, View, ScrollView, Keyboard} from 'react-native';
+import {HStack, Text} from 'native-base';
+import moment from 'moment';
+import {map} from 'lodash';
+import CustomInput from '../components/input';
+import Message from '../components/Message';
+import {app} from '../utils/firebase'; // Importa la instancia de Firebase desde utils/firebase
+import {getDatabase, ref, push, onValue} from 'firebase/database';
 
-export default function Chat() {
+export default function Chat(props) {
+  const {userName} = props;
+  const [messages, setMessages] = useState([]);
+  const chatScrollReft = useRef();
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  const keyboardDidShowListener = Keyboard.addListener(
+    'keyboardDidShow',
+    () => {
+      setIsKeyboardOpen(true);
+      console.log('Teclado abierto');
+    },
+  );
+
+  const keyboardDidHideListener = Keyboard.addListener(
+    'keyboardDidHide',
+    () => {
+      setIsKeyboardOpen(false);
+      console.log('Teclado cerrado');
+    },
+  );
+
+  useEffect(() => {
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const chat = ref(getDatabase(app), 'general');
+    onValue(chat, snapshot => {
+      const data = snapshot.val();
+      console.log(data); // Puedes hacer lo que necesites con los datos recibidos
+      setMessages(snapshot.val());
+    });
+  }, []);
+
+  useEffect(() => {
+    chatScrollReft.current.scrollToEnd({animated: true});
+  }, [messages, isKeyboardOpen]);
+
+  const sendMessage = message => {
+    const time = moment().format('hh:mm a');
+    const database = getDatabase(app);
+    const messagesRef = ref(database, 'general');
+    push(messagesRef, {
+      userName, // Cambia 'John' por el nombre de usuario adecuado
+      text: message,
+      time,
+    });
+  };
+
   return (
     <>
-      <View>
-        <Text>Estamos en el Chat</Text>
+      <HStack
+        w="100%"
+        borderBottomWidth={1}
+        borderColor="#fff"
+        bg="#16202b"
+        px="1"
+        py="5"
+        justifyContent="center"
+        iosBarStyle="light-content"
+        androidStatusBarColor="light-content">
+        <HStack alignItems="center">
+          <Text color="#fff" fontSize="18" fontWeight="bold">
+            Chat App
+          </Text>
+        </HStack>
+      </HStack>
+      <View style={styles.content}>
+        <ScrollView style={styles.chatView} ref={chatScrollReft}>
+          {map(messages, (message, index) => (
+            <Message key={index} message={message} name={userName} />
+          ))}
+        </ScrollView>
+        <CustomInput sendMessage={sendMessage} />
       </View>
     </>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  chatView: {
+    backgroundColor: '#1b2734',
+  },
+});
