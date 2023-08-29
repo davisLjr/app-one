@@ -67,16 +67,15 @@ export default function Chat(props) {
       <HStack
         w="100%"
         borderBottomWidth={1}
-        borderColor="#fff"
-        bg="#16202b"
-        px="1"
-        py="5"
-        justifyContent="center"
+        borderColor="#373E40"
+        bg="#fff"
+        px="6"
+        py="3"
         iosBarStyle="light-content"
         androidStatusBarColor="light-content">
-        <HStack alignItems="center">
-          <Text color="#fff" fontSize="18" fontWeight="bold">
-            Chat App
+        <HStack alignItems="left">
+          <Text color="#373E40" fontSize="30" fontWeight="500">
+            Inbox
           </Text>
         </HStack>
       </HStack>
@@ -99,6 +98,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   chatView: {
-    backgroundColor: '#1b2734',
+    backgroundColor: '#fff',
   },
 });

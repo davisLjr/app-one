@@ -21,10 +21,11 @@ export default function CustomInput(props) {
         <InputNB
           placeholder="Mensaje..."
           placeholderTextColor="grey"
-          variant="underlined"
+          variant="rounded"
           style={styles.inputnb}
           value={message}
           onChange={e => setMessage(e.nativeEvent.text)}
+          focusOutlineColor="#26313e"
         />
         <TouchableOpacity onPress={onSubmit}>
           <Icon name="send" size={25} style={styles.iconSend} />
@@ -36,21 +37,22 @@ export default function CustomInput(props) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 30,
-    backgroundColor: '#16202b',
-    paddingBottom: Platform.OS === 'ios' ? 20 : 0,
+    backgroundColor: '#fff',
+    paddingBottom: Platform.OS === 'ios' ? 20 : 10,
+    paddingTop: Platform.OS === 'ios' ? 20 : 10,
   },
   boxInput: {
-    paddingRight: 20,
-    borderColor: '#16202b',
+    paddingRight: 30,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
   },
   inputnb: {
-    color: '#ffffff',
-    width: '50%',
+    color: '#26313e',
+    backgroundColor: '#e7e7e7'
   },
   iconSend: {
-    color: '#ffffff',
+    color: '#26313e',
+    marginLeft: 15,
   },
 });
