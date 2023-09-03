@@ -75,7 +75,7 @@ export default function Chat(props) {
         androidStatusBarColor="light-content">
         <HStack alignItems="left">
           <Text color="#373E40" fontSize="30" fontWeight="500">
-            Inbox
+            Chat privado
           </Text>
         </HStack>
       </HStack>
