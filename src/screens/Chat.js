@@ -9,7 +9,7 @@ import {app} from '../utils/firebase'; // Importa la instancia de Firebase desde
 import {getDatabase, ref, push, onValue} from 'firebase/database';
 
 export default function Chat(props) {
-  const {userName} = props;
+  const {userName, userPassword} = props;
   const [messages, setMessages] = useState([]);
   const chatScrollReft = useRef();
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);

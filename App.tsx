@@ -8,15 +8,18 @@ import Chat from './src/screens/Chat';
 LogBox.ignoreLogs(['In React 18', 'Remote debugger']);
 
 export default function App() {
-  const [userName, setUserName] = useState(null);
+  const [userName, setUserName] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+
+  const completed = userName !== '' && userPassword !== '';
 
   return (
     <NativeBaseProvider>
       <Container style={styles.container} maxWidth="100%">
-        {!userName ? (
-          <Login setUserName={setUserName} />
+        {!completed ? (
+          <Login setUserName={setUserName} setUserPassword={setUserPassword} />
         ) : (
-          <Chat userName={userName} />
+          <Chat userName={userName} userPassword={userPassword} />
         )}
       </Container>
     </NativeBaseProvider>

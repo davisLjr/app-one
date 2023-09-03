@@ -5,11 +5,13 @@ import LogoApp from '../assets/colorFull.jpg';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Login(props) {
-  const {setUserName} = props;
+  const {setUserName, setUserPassword} = props;
   const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
 
   const onSubmit = () => {
     setUserName(name);
+    setUserPassword(password);
     // console.log(name);
   };
 
@@ -36,6 +38,15 @@ export default function Login(props) {
           style={styles.input}
           value={name}
           onChange={e => setName(e.nativeEvent.text)}
+        />
+
+        <Input
+          variant="underlined"
+          placeholderTextColor="grey"
+          placeholder="contraseña"
+          style={styles.input}
+          value={password}
+          onChange={e => setPassword(e.nativeEvent.text)}
         />
 
         <Button style={styles.btnLogin} onPress={onSubmit}>
@@ -88,7 +99,7 @@ const styles = StyleSheet.create({
   mainInput: {
     position: 'absolute',
     width: '100%',
-    height: '45%',
+    height: '50%',
     bottom: 0,
     paddingHorizontal: 40,
     paddingVertical: 20,
